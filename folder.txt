@@ -1,0 +1,77 @@
+﻿寄件者:	Greg_Chang
+寄件日期:	Thursday, August 21, 2025 5:16 PM
+收件者:	Jay_Yu
+副本:	Lyon_Lee; Mj_Chen; Candy_Yang; Stephen_Han; Rexcj_Chen
+主旨:	回覆: VE-TRUSTA-JKS-3.50  Share folder
+
+Hi Jay,
+
+7F lab 已經架好共享資料夾 在 Jenkins server /home/share  ( VE-TRUSTA-JKS-3.50 , 
+ip : 172.18.3.50 )
+
+使用以下步驟即可在同網段底下將此共享資料夾掛到本機端的/mnt  
+ 
+windows設定方式
+1.	檔案總管 -->  畫面左邊的本機按右鍵 --> 連線網路磁碟機 --> 資料夾
+\\172.18.3.50\share 完成
+2.	帳號密碼都是ve
+3.	後續可直接操作網路磁碟機即可
+
+ubuntu設定方式
+
+1.	sudo apt install smbclient -y
+2.	sudo apt install cifs-utils -y
+3.	smbclient -L //172.18.3.50/share -N
+
+4.	sudo mount.cifs //172.18.3.50/share /mnt  -o username=ve,password=ve,uid=$(id -u),gid=$(id -g),rw,vers=3.0
+
+之後操作/mnt 即可對應 server的share folder.
+
+即cp  a.txt /mnt    就可以把local端a.txt複製到share folder
+
+cp /mnt/test.bat ./ 就可以把share folder 檔案複製到當前目錄下   
+ 
+後續你Jenkins 可依此來架設
+
+Best wishes,
+
+Greg
+
+ 
+寄件者: Greg_Chang 
+寄件日期: 2025年8月18日 下午 05:45 
+收件者: Stephen_Han <Stephen_Han@adata.com> 
+副本: Lyon_Lee <Lyon_Lee@adata.com>; Mj_Chen <Mj_Chen@adata.com>; Candy_Yang 
+<Candy_Yang@adata.com> 
+主旨: VE-TRUSTA-JKS-3.50 Share folder
+ 
+Hi Stephen,
+
+ubuntu設定方式
+
+1.	sudo apt install smbclient -y
+2.	sudo apt install cifs-utils -y
+3.	smbclient -L //172.18.3.50/share -N
+4.	sudo mount.cifs //172.18.3.50/share /mnt  -o 
+username=ve,password=ve,uid=$(id -u),gid=$(id -g),rw,vers=3.0
+
+後續對/mnt 操作則對應Jenkins server (172.18.3.50)的/home/share 
+包含資料夾/檔案都可以 
+ 
+ 
+windows設定方式
+1.	檔案總管 -->  畫面左邊的本機按右鍵 --> 連線網路磁碟機 --> 資料夾
+\\172.18.3.50\share 完成
+2.	帳號密碼都是ve
+3.	後續可直接操作網路磁碟機即可
+
+後續對此網路磁碟機操作則對應Jenkins server (172.18.3.50)的/home/share 
+包含資料夾/檔案都可以
+
+
+Best wishes,
+Greg
+
+
+
+
